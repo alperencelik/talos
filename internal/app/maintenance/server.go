@@ -159,9 +159,6 @@ func (s *Server) GenerateClientConfiguration(context.Context, *machine.GenerateC
 
 // Version implements the machine.MachineServer interface.
 func (s *Server) Version(ctx context.Context, _ *emptypb.Empty) (*machine.VersionResponse, error) {
-	if err := s.assertAdminRole(ctx); err != nil {
-		return nil, err
-	}
 
 	var platform *machine.PlatformInfo
 
@@ -321,9 +318,6 @@ func (s *Server) Reset(ctx context.Context, in *machine.ResetRequest) (*machine.
 
 // MetaWrite implements the [machine.MachineServiceServer] interface.
 func (s *Server) MetaWrite(ctx context.Context, req *machine.MetaWriteRequest) (*machine.MetaWriteResponse, error) {
-	if err := s.assertAdminRole(ctx); err != nil {
-		return nil, err
-	}
 
 	if uint32(uint8(req.Key)) != req.Key {
 		return nil, status.Errorf(codes.InvalidArgument, "key must be a uint8")
@@ -352,9 +346,6 @@ func (s *Server) MetaWrite(ctx context.Context, req *machine.MetaWriteRequest) (
 
 // MetaDelete implements the [machine.MachineServiceServer] interface.
 func (s *Server) MetaDelete(ctx context.Context, req *machine.MetaDeleteRequest) (*machine.MetaDeleteResponse, error) {
-	if err := s.assertAdminRole(ctx); err != nil {
-		return nil, err
-	}
 
 	if uint32(uint8(req.Key)) != req.Key {
 		return nil, status.Errorf(codes.InvalidArgument, "key must be a uint8")
